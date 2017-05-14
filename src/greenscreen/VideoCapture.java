@@ -25,8 +25,8 @@ public class VideoCapture {
     
     public static final double SECONDS_BETWEEN_FRAMES = 10;
     
-    private static final String inputFilename = "C:\\Users\\BestDark\\Downloads\\Video\\Toy.mp4";
-    private static final String outputFilePrefix = "C:\\Users\\BestDark\\Downloads\\Video";
+    private static final String inputFilename = "C:/Fraps/Movies/Paladins 2017-04-08 10-28-01-68.avi";
+    private static final String outputFilePrefix = "C:/Users/Game/Desktop/Programming/TempBestProject/Output";
     
     private static int mVideoStreamIndex = -1;
     
@@ -37,7 +37,7 @@ public class VideoCapture {
         
     }
     
-    public static void main(String[] args){
+    public static void main(String[] args) throws IOException{
         IMediaReader mediaReader = ToolFactory.makeReader(inputFilename);
         mediaReader.setBufferedImageTypeToGenerate(BufferedImage.TYPE_3BYTE_BGR);
         mediaReader.addListener(new ImageSnapListener());
@@ -46,7 +46,7 @@ public class VideoCapture {
     
     private static class ImageSnapListener extends MediaListenerAdapter{
         
-        public void videoPicture(IVideoPictureEvent event){
+        public void onVideoPicture(IVideoPictureEvent event){
             if(event.getStreamIndex() != mVideoStreamIndex){
                 if(mVideoStreamIndex == -1){
                     mVideoStreamIndex = event.getStreamIndex();
@@ -63,8 +63,7 @@ public class VideoCapture {
                 String outputFilename = dumpImageToFile(event.getImage());
                 
                 double seconds = ((double) event.getTimeStamp()) / Global.DEFAULT_PTS_PER_SECOND;
-                System.out.printf("Elapsed time of %6.3f seconds wrote: %s \n", seconds, outputFilename);
-                
+                System.out.printf("Elapsed time of %6.3f seconds wrote: %s \n", seconds, outputFilename);  
                 mLastPtsWrite += MICRO_SECONDS_BETWEEN_FRAMES;
             }
         }
